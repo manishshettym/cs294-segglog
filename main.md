@@ -119,7 +119,7 @@ Datalog dialects such as Differential Datalog (DDLog) [^ddlog] have been propose
 
 This capability significantly benefits tools like Language Server Protocols (LSP) servers and compilers, providing developers with real-time feedback and suggestions. However, this solves only part of the problem, where one can reason about the effect of changes. What remains is the part where we *reflect* on what change would provide the desired effect.
 
-Elastic incrementalization [^elastic-incremental, ^zhao2023automatic] extends this by incorporating provenance annotations for input adjustments in incremental Datalog. They switch between a low-overhead Bootstrap strategy that targets high-impact updates and an Update strategy that targets low-impact updates.
+Elastic incrementalization [^elastic-incremental][^zhao2023automatic] extends this by incorporating provenance annotations for input adjustments in incremental Datalog. They switch between a low-overhead Bootstrap strategy that targets high-impact updates and an Update strategy that targets low-impact updates.
 
 
 # References
