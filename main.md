@@ -122,6 +122,72 @@ This capability significantly benefits tools like Language Server Protocols (LSP
 Elastic incrementalization [^elastic-incremental][^zhao2023automatic] extends this by incorporating provenance annotations for input adjustments in incremental Datalog. They switch between a low-overhead Bootstrap strategy that targets high-impact updates and an Update strategy that targets low-impact updates.
 
 
+# A Symbolic Execution Perspective
+
+In the previous sections, we cover various viewpoints on the challenge of reflecting on input transformations modulo a desired property in a Datalog setting. Some solve the transformation aspect (Database repair), and others the reflection aspect (Data provenance, Debugging, and Incremental Datalog). However, a unification of the two within standard Datalog remains to bridge the use of Datalog from pure program analyses to transformations.
+
+Consequently, one must be able to represent changes to the input and then execute them to view how they affect the output, all in standard Datalog. Hence, the key missing pieces are:
+
+1. How to represent a change $\Delta(EDB)$ in standard Datalog?
+2. How to execute $\Delta(EDB)$ in standard Datalog, such that, we can reflect on a map $\Delta(EDB) \mapsto \Delta(IDB)$?
+
+Liu et al. (2023) [^liu2023program] presented one solution. They discuss an instantiation of the larger problem in program repair (a specific program transformation). An example of the setup is illustrated in Figure [example-prog-repair](#dummy-link). With this setup, one can identify bugs (such as null pointer exceptions) using a Datalog query over program facts. The result is an observed fact, say `npe("y", 3)`, that suggests the presence of the bug. Additionally, as seen in the section on Data Provenance and referenced in Figure [proof-tree](#dummy-link), one can derive a proof tree that describes the derivation of the observed fact.
+
+
+## Motivation: SymEx for Program Repair
+
+Popular research in automated program repair uses symbolic execution and testing. Nguyen et al. (2013) [^semfix] proposed **SemFix**, where the authors reformulated the requirement on the repaired code to pass a given set of tests as a constraint. **SemFix** generates repair constraints via controlled symbolic execution [^symex-select] of the program. Such a constraint is then solved by iterating over a space of repair expressions. Here, the key idea is in modeling the problem: abstract a given program by injecting symbols and executing the program symbolically to infer repair constraints. Solving these constraints results in potential repairs.
+
+Liu et al. (2023) [^liu2023program] extend this idea to Datalog. They introduce the notion of **Symbolic Execution of Datalog** (SEDL) that determines how a change to the EDB affects the output of a given query, the details of which are described next.
+
+
+### Symbolic Execution of Datalog
+
+A set of changes to the database can be encoded using symbols. Liu et al. (2023) [^liu2023program] introduce three types of symbols: (1) symbolic constants ($\alpha$'s) that represent unknown constants, (2) symbolic predicates ($\rho$'s) for unknown predicates, and (3) symbolic signs ($\xi$'s) for unknown truthfulness of facts. These symbols can be used to inject and encode a large space of changes to the EDB, as shown below:
+
+**Example.** For instance, consider the EDB in Figure [example-prog-repair](#dummy-link). Injecting symbolic facts into it could result in a symbolic EDB as follows:
+$$
+\begin{align*}
+&\xi_1 \text{ flow}(1, 2).    \hspace{4em}             \text{assign\_null}("x", 1). \\
+&\xi_2 \text{ flow}(2, 3).    \hspace{4em}             \text{call}("y", 3).\\
+&\xi_3 \text{ flow}(\alpha_1, \alpha_2).  \hspace{3em}             \xi_5 \text{ flow}(\alpha_4, 3).\\  
+&\xi_4 \text{ flow}(\alpha_2, \alpha_3).  \hspace{3em}            \xi_6 \text{ assign\_obj}(\alpha_5, \alpha_6). \\
+&\text{assign\_null}("x", 1).
+\end{align*}
+$$
+
+Any valuation of these symbols corresponds to a concrete EDB (including the original one). Next, these sets of changes (encoded as symbols) are "executed" using standard Datalog. To do so, Liu et al. (2023) [^liu2023program] propose a meta-programming approach. They encode the query and symbolic EDB into a meta-program using transformation rules. The meta-program uses auxiliary variables in the relations to capture the bindings for the symbols introduced. An example is discussed below:
+
+**Example:** Consider the rule `null(V,L):- flow(L1, L), assign_null(V, L1).` that calculates when a variable is `null`. Each predicate in a rule like this is augmented with variables for each symbol introduced. These auxiliary variables store the assignments to their corresponding symbols:
+
+$$
+\begin{align*}
+&\text{null}(V,L, C1, \ldots, Cn):- \text{ flow}(L1, L, C1, \ldots, Cn), \text{ assign\_null}(V, L1, C1, \ldots, Cn); \\
+\end{align*}
+$$
+
+As shown, the rules also propagate the values bound to these symbols. Similarly, a symbolic EDB fact such as $\text{flow}(\alpha_1, 2)$ is converted to a rule that enumerates values from the domain of the symbol used:
+
+$$
+\begin{align*}
+&\text{flow}(C1, 2, C1, \ldots, Cn) :- \text{ dom\_}\alpha_1(C1), \ldots, \text{ dom\_}\alpha_n(Cn)
+\end{align*}
+$$
+
+When executed, the values in these binding variables will capture the **assignment constraints that should hold** for the corresponding fact. A similar strategy is used to bind symbolic predicates that identify **which predicate instantiation is needed** to infer a fact. Lastly, bindings for symbolic signs represent whether the output fact **can be inferred with or without relying on a symbolic signed fact**.
+
+The overall semantics of symbolically executing a Datalog program $P$ can thus be described as a function $\mathcal{S}_P:2^{SEHB} \to 2^{SIHB \times \Phi}$. That is, each inferred fact in the symbolic intentional database (SIHB) is accompanied by an **Inference Condition** $\Phi$ that summarizes the values of auxiliary variables. This condition defines under what constraint the output fact is generated (similar to path conditions in conventional symbolic execution). For instance, the fact $npe(y, 3)$ could be accompanied by the following condition:
+
+> [!Important]
+>
+> 🚧 TODO: add figure
+
+Consequently, $\neg \Phi$ represents the constraint under which the corresponding fact is not true. This closes the loop for program repair, since $\neg \Phi$ is essentially a **repair constraint**—any solution for it is a valid repair or change to the EDB. These perspectives and ideas introduced to Datalog could potentially be extended beyond program repair.\
+
+# Conclusion
+
+In this paper, we survey existing work to answer the question: *Can program transformations be translated to useful aspects of Datalog?* In light of this question, we looked at connections to databases in two directions. First, we studied the origins or derivation of a fact, found existing connections to database repair modulo integrity constraints, and unveiled challenges with them. Further, we find research on data provenance, Datalog augmented with lattices, and debugging Datalog quite relevant to the question at hand. Finally, we cover recent efforts in program repair (an example of a program transformation) that propose a symbolic execution perspective to this problem. Overall, this survey describes and connects several related ideas and provides a basis for future research on Datalog-based program transformations.
+
 # References
 
 [^datalog]: Citation for Datalog.
@@ -144,6 +210,7 @@ Elastic incrementalization [^elastic-incremental][^zhao2023automatic] extends th
 [^ddlog]: Differential Datalog (DDLog). 
 [^elastic-incremental]: Elastic Incrementalization.
 [^zhao2023automatic]: Zhao, Y., et al. (2023). Automatic Elastic Incrementalization for Datalog.
-
-
+[^liu2023program]: Liu, et al. (2023). Program Repair with Datalog.
+[^semfix]: Nguyen, T. A., et al. (2013). SemFix: Program Repair via Semantic Analysis.
+[^symex-select]: Symbolic execution for selective program repair.
 
