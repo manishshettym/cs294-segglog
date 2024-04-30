@@ -55,7 +55,7 @@ th {
 
 <div class="table-container">
     <div class="column">
-        <table border="1">
+        <table border="1" align=center>
             <tr>
                 <th colspan="3">Student</th>
             </tr>
@@ -72,7 +72,7 @@ th {
         </table>
     </div>
     <div class="column">
-        <table border="1">
+        <table border="1" align=center>
             <tr>
                 <th colspan="3">Course</th>
             </tr>
