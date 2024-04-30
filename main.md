@@ -253,17 +253,3 @@ In this paper, we survey existing work to answer the question: *Can program tran
 [^semfix]: Nguyen, T. A., et al. (2013). SemFix: Program Repair via Semantic Analysis.
 [^symex-select]: Symbolic execution for selective program repair.
 
-
-
-<script type="text/x-mathjax-config">
-	MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
-	  var PARSE = MathJax.InputJax.TeX.Parse,
-	      TEXT = PARSE.prototype.InternalText;
-	  PARSE.Augment({
-	    InternalText: function (text,def) {
-	      text = text.replace(/\\/g,"");
-	      return TEXT.call(this,text,def);
-	    }
-	  });
-	});
-	</script>
