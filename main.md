@@ -127,11 +127,12 @@ Despite the numerous advantages, the declarative semantics of Datalog poses a de
 A standard solution for these explanations is a *proof tree* [^datalog]. A proof tree for a tuple describes the derivation of that tuple from input tuples and rules.
 A valid proof tree (all nodes hold) can explain an unexpected tuple when debugging. A failed proof tree provides insight into why a tuple is not produced. [Figure 2](#dummy-link) shows an example of a proof tree for an alias analysis.
 
-<figure align="center" width="100%">
+<p align="center" width="100%">
 <!-- ![alt text](fig2.svg) -->
- <img src=fig2.svg>
- <figcaption>Figure 2. Full proof tree for alias(a,b) in an alias analysis.</figcaption>
-</figure>
+<img src=fig2.svg>
+
+Figure 2. Full proof tree for alias(a,b) in an alias analysis.
+</p>
 
 **Challenges:** However, these state-of-the-art techniques do not scale to large program analysis problems. Firstly, unlike top-down evaluation, scalable bottom-up Datalog evaluation does not have a notion of proof trees. Consequently, techniques propose rewriting the Datalog specification with provenance information [^deutch2015selective][^kohler2012declarative][^lee2017efficiently]. Here, a common issue is the need for re-evaluation when debugging, which can be expensive for industrial-scale static analysis problems (think something as precise as **Doop** [^doop], which may take multiple days for medium-to-large Java programs). Another major challenge is infinitely many proof trees and their conciseness—brute force search is infeasible, and storing proof trees during evaluation is memory intensive.
 
