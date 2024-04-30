@@ -12,14 +12,18 @@ We posit that bridging Datalog's strengths for analysis with an ability to reaso
 
 # Introduction
 
-The use of deductive databases and logic programming languages, such as Datalog [^datalog], for program analysis is far from new [^reps1995demand, ^whaley2004cloning, ^lam2005context]. The declarativeness of Datalog makes it attractive for specifying complex analyses [^souffle, ^madmax]. The ability to specify recursive definitions is particularly exciting, as program analysis is fundamentally a mixture of mutually recursive tasks (see Figure: analyses-deps).
+The use of deductive databases and logic programming languages, such as Datalog [^datalog], for program analysis is far from new [^reps1995demand][^whaley2004cloning][^lam2005context]. The declarativeness of Datalog makes it attractive for specifying complex analyses [^souffle][^madmax]. The ability to specify recursive definitions is particularly exciting, as program analysis is fundamentally a mixture of mutually recursive tasks (see Figure: analyses-deps).
+
+> ![Important]
+>
+> Fix figure analyses-deps
 
 A Datalog query is a set of Horn clauses such as `path(X,Y) :- edge(X,Z), path(Z,Y).` executed against a database of facts referred to as the extensional database (EDB). The result is a set of derived facts, referred to as the intensional database (IDB).
 
 Naturally, a program to be analyzed is represented as an EDB; e.g., control-flow graph (CFG) as a set of facts. When a query is executed on this EDB, an optimized Datalog engine computes all facts that can be inferred using the query's rules. A big advantage of this setup is the multitude of optimizations from the classical database systems that come for free to make these analyses efficient [^doop].
 
 
-While connecting program analysis to databases (via Datalog) has proved useful, an open question is whether *program transformations similarly translate to useful aspects of databases*.
+While connecting program analysis to databases (via Datalog) has proved useful, an open question is ***whether program transformations similarly translate to useful aspects of databases***.
 
 Program transformations involve changes in a program to improve an objective. Reasoning about these changes is necessary in many practical applications. For example, while a program analysis can determine if a program's behavior violates a certain property, a valid repair (fix, exception handler, etc.) ensures a program that meets the desired property [^sadowski2018lessons]. Consequently, reflecting on what transformations lead to a desired property is of great interest.
 
@@ -34,19 +38,60 @@ There have been various approaches to support both these aspects in traditional 
 
 One well-studied desired property in traditional database applications is **Consistency**. Arenas et al. (1999) [^arenas1999consistent] define a database instance $r$ as *consistent* if $r$ satisfies a set of *integrity constraints* $IC$. They then logically characterize "consistent query answers in inconsistent databases". The intuitive interpretation here is that an answer to a query posed to a database that violates integrity constraints should be the same as that obtained from a minimally **repaired** version of the original database.
 
-```markdown
-| **Student** |
-|-------------|
-| S1 N1 D1    |
-| S1 N2 D1    |
 
-| **Course**  |
-|-------------|
-| S1 C1 G1    |
-| S1 C2 G2    |
-```
+<style>
+.table-container {
+    width: 100%;
+}
+.column {
+    display: table-cell;
+    padding: 10px;
+}
+th {
+    text-align: center;
+}
+</style>
 
-**Example:** Consider a student database. `Student(x, y, z)` means that `x` is the student number, `y` is the student's name, and `z` is the address. The following Integrity Constraints (ICs) state that the first argument is the relation's key:
+
+<div class="table-container">
+    <div class="column">
+        <table border="1">
+            <tr>
+                <th colspan="3">Student</th>
+            </tr>
+            <tr>
+                <td>S1</td>
+                <td>N1</td>
+                <td>D1</td>
+            </tr>
+            <tr>
+                <td>S1</td>
+                <td>N2</td>
+                <td>D1</td>
+            </tr>
+        </table>
+    </div>
+    <div class="column">
+        <table border="1">
+            <tr>
+                <th colspan="3">Course</th>
+            </tr>
+            <tr>
+                <td>S1</td>
+                <td>C1</td>
+                <td>G1</td>
+            </tr>
+            <tr>
+                <td>S1</td>
+                <td>C2</td>
+                <td>G2</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+**Example:** Consider a student database shown above. `Student(x, y, z)` means that `x` is the student number, `y` is the student's name, and `z` is the address. The following Integrity Constraints (ICs) state that the first argument is the relation's key:
 
 $$
 \forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset y = u),
@@ -55,7 +100,7 @@ $$
 \forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset z = v).
 $$
 
-The inconsistent database instance `r` (shown) has two repairs, each removing one of the tuples in `Student`. Considering all repairs, for a query $\exists{z} Course(S1, y, z)$, we obtain `C1` and `C2` as the consistent answers. However, for $\exists{(u,v)} (Student(u, N1, v) \land Course(u, x, y))$ we obtain no (consistent) answers.
+The inconsistent database instance `r` (shown) has two repairs, each removing one of the tuples in `Student`. Considering all repairs, for a query $\exists{z}~ Course(S1, y, z)$, we obtain `C1` and `C2` as the consistent answers. However, for $\exists{(u,v)}~ (Student(u, N1, v) \land Course(u, x, y))$ we obtain no (consistent) answers.
 
 
 This is interesting since a *repaired* database $r'$ was transformed to satisfy the desired integrity constraints $IC$. Of course, there could be many repairs for an inconsistent database.
