@@ -73,8 +73,10 @@ One well-studied desired property in traditional database applications is **Cons
 **Example:** Consider the student database shown above. `Student(x, y, z)` means that `x` is the student number, `y` is the student's name, and `z` is the address. The following Integrity Constraints (ICs) state that the first argument is the relation's key:
 
 $$
+\begin{align*}
 \forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset y = u), \\
 \forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset z = v).
+\end{align*}
 $$
 
 The inconsistent database instance `r` (shown) has two repairs, each removing one of the tuples in `Student`. Considering all repairs, for a query $\exists{z}~ Course(S1, y, z)$, we obtain `C1` and `C2` as the consistent answers. However, for $\exists{(u,v)}~ (Student(u, N1, v) \land Course(u, x, y))$ we obtain no (consistent) answers.
