@@ -170,6 +170,9 @@ Consequently, one must be able to represent changes to the input and then execut
 Liu et al. (2023) [^liu2023program] presented one solution. They discuss an instantiation of the larger problem in program repair (a specific program transformation). An example of the setup is illustrated in Figure [example-prog-repair](#dummy-link). With this setup, one can identify bugs (such as null pointer exceptions) using a Datalog query over program facts. The result is an observed fact, say `npe("y", 3)`, that suggests the presence of the bug. Additionally, as seen in the section on Data Provenance and referenced in Figure [proof-tree](#dummy-link), one can derive a proof tree that describes the derivation of the observed fact.
 
 
+> [!Important]
+> Fix images
+
 ## Motivation: SymEx for Program Repair
 
 Popular research in automated program repair uses symbolic execution and testing. Nguyen et al. (2013) [^semfix] proposed **SemFix**, where the authors reformulated the requirement on the repaired code to pass a given set of tests as a constraint. **SemFix** generates repair constraints via controlled symbolic execution [^symex-select] of the program. Such a constraint is then solved by iterating over a space of repair expressions. Here, the key idea is in modeling the problem: abstract a given program by injecting symbols and executing the program symbolically to infer repair constraints. Solving these constraints results in potential repairs.
@@ -250,3 +253,17 @@ In this paper, we survey existing work to answer the question: *Can program tran
 [^semfix]: Nguyen, T. A., et al. (2013). SemFix: Program Repair via Semantic Analysis.
 [^symex-select]: Symbolic execution for selective program repair.
 
+
+
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+	  var PARSE = MathJax.InputJax.TeX.Parse,
+	      TEXT = PARSE.prototype.InternalText;
+	  PARSE.Augment({
+	    InternalText: function (text,def) {
+	      text = text.replace(/\\/g,"");
+	      return TEXT.call(this,text,def);
+	    }
+	  });
+	});
+	</script>
