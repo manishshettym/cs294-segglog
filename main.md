@@ -209,7 +209,7 @@ As shown, the rules also propagate the values bound to these symbols. Similarly,
 
 $$
 \begin{align*}
-&\text{flow}(C1, 2, C1, \ldots, Cn) :- \text{ dom\_}\alpha_1(C1), \ldots, \text{ dom\_}\alpha_n(Cn)
+&\text{flow}(C1, 2, C1, \ldots, Cn) :- \text{ dom-}\alpha_1(C1), \ldots, \text{ dom-}\alpha_n(Cn)
 \end{align*}
 $$
 
