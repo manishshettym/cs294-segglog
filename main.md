@@ -1,18 +1,3 @@
-
-<style>
-    code { 
-      font-size: 120%; 
-      white-space: pre;
-    }
-    tr { vertical-align: middle; }
-    table {
-        border-spacing: 0;
-        margin: auto;
-    }
-    td { padding: 0.1em 0.5em; }
-    tbody tr:nth-child(odd) {background-color: #00000011;}
-</style>
-
 <h1> From Program Analyses to Transformations with Datalog </h1>
 <span>
 Manish Shetty
