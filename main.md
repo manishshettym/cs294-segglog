@@ -56,7 +56,7 @@ One well-studied desired property in traditional database applications is **Cons
             </tr>
         </table>
     </div>
-    <div class="column" style="display:flex;">>
+    <div class="column" style="display:flex;">
         <table border="1" align=center>
             <tr>
                 <th colspan="3" style="text-align: center;">Course</th>
@@ -90,7 +90,10 @@ This is interesting since a *repaired* database $r'$ was transformed to satisfy 
 Arenas et al. (1999) [^arenas1999consistent] hence propose a solution to retrieve consistent answers that use only the original database (despite inconsistency).
 The idea is to syntactically transform a query $Q$, reinforcing residues of ICs locally, to a query $Q'$. Evaluating $Q'$ on the original database returns the set of consistent answers to the query $Q$. This avoids explicitly computing the repairs. Here's an example:
 
-**Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the query $$\neg Q(x) \land \colorbox{gray}{$\neg P(x)$}$$ where the highlighted part is the residue added.
+**Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the below query, where the highlighted part is the residue added:
+$$
+\neg Q(x) \land \colorbox{gray}{$\displaystyle \neg P(x)$}
+$$
 
 
 **Challenges:** There are challenges in extending this directly to Datalog and program transformations. Mainly, queries and constraints here are limited to a fragment of first-order logic and rewritten into a new query in the same language. For instance, completeness is lost when it is applied to disjunctive or existential queries.
@@ -108,11 +111,13 @@ While connections to database repair are apparent, another way to view transform
 Despite the numerous advantages, the declarative semantics of Datalog poses a debugging challenge. Logic specifications lack the notion of state and state transitions. After evaluation, we can only view relations in their entirety without explaining the origin or derivation of data.
 
 A standard solution for these explanations is a *proof tree* [^datalog]. A proof tree for a tuple describes the derivation of that tuple from input tuples and rules.
+A valid proof tree (all nodes hold) can explain an unexpected tuple when debugging. A failed proof tree provides insight into why a tuple is not produced. Figure [XXX](#dummy-link) shows an example of a proof tree for an alias analysis.
 
-A valid proof tree (all nodes hold) can explain an unexpected tuple when debugging. A failed proof tree provides insight into why a tuple is not produced. Figure [here](#dummy-link) shows an example of a proof tree for an alias analysis.
+> ![Imporant]
+>
+> Add figure
 
-
-**Challenges:** However, these state-of-the-art techniques do not scale to large program analysis problems. Firstly, unlike top-down evaluation, scalable bottom-up Datalog evaluation does not have a notion of proof trees. Consequently, techniques propose rewriting the Datalog specification with provenance information [^deutch2015selective, ^kohler2012declarative, ^lee2017efficiently]. Here, a common issue is the need for re-evaluation when debugging, which can be expensive for industrial-scale static analysis problems (think something as precise as **Doop** [^doop], which may take multiple days for medium-to-large Java programs). Another major challenge is infinitely many proof trees and their conciseness—brute force search is infeasible, and storing proof trees during evaluation is memory intensive.
+**Challenges:** However, these state-of-the-art techniques do not scale to large program analysis problems. Firstly, unlike top-down evaluation, scalable bottom-up Datalog evaluation does not have a notion of proof trees. Consequently, techniques propose rewriting the Datalog specification with provenance information [^deutch2015selective][^kohler2012declarative][^lee2017efficiently]. Here, a common issue is the need for re-evaluation when debugging, which can be expensive for industrial-scale static analysis problems (think something as precise as **Doop** [^doop], which may take multiple days for medium-to-large Java programs). Another major challenge is infinitely many proof trees and their conciseness—brute force search is infeasible, and storing proof trees during evaluation is memory intensive.
 
 
 Recently, Zhao et al. (2020) [^zhao2020debugging] proposed storing *proof annotations* alongside tuples that include the height of the minimal proof tree and the rule that generated the tuple. Further, they extend the standard subset lattice of bottom-up evaluation as follows:
@@ -120,7 +125,7 @@ Recently, Zhao et al. (2020) [^zhao2020debugging] proposed storing *proof annota
 1. Define a *provenance instance* $(I, h)$ as an instance of tuples $I$ along with a function $h$ that provides a height annotation for each tuple in the instance.
 2. Define a *provenance lattice* as one that follows the ordering:
     $$
-    (I_1,h_1) \sqsubseteq (I_2,h_2) \Longleftrightarrow I_1 \subseteq I_2 ~\text{and}~ \forall{t \in I_1}: h_1(t) \ge h_2(t).
+    (I_1,h_1) \sqsubseteq (I_2,h_2) \Longleftrightarrow I_1 \subseteq I_2 ~~and~~ \forall{t \in I_1}: h_1(t) \ge h_2(t).
     $$
 3. Define the join of instances $(I, h)$ and $(I', h')$ as $(I \cup I', h'')$ where $h''$ is the minimum of $h$ and $h'$ for each tuple in the join.
 
