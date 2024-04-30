@@ -1,22 +1,43 @@
 
+<style>
+    code { 
+      font-size: 120%; 
+      white-space: pre;
+    }
+    tr { vertical-align: middle; }
+    table {
+        border-spacing: 0;
+        margin: auto;
+    }
+    td { padding: 0.1em 0.5em; }
+    tbody tr:nth-child(odd) {background-color: #00000011;}
+</style>
 
-<h1 align=center>Abstract</h1>
+<h1> From Program Analyses to Transformations with Datalog </h1>
+<span>
+Manish Shetty
+
+University of California, Berkeley
+
+manishs@berkeley.edu
+</span>
+
+<h2 align=center>Abstract</h2>
 
 Datalog has proven to be a powerful language for encoding program analyses, but its connection to program transformations remains underexplored. This paper investigates how ideas from database repair, data provenance, and symbolic execution can bridge the gap between using Datalog for program analysis and leveraging it for program transformations.
-% 
 We survey existing approaches and present an upcoming perspective on the symbolic execution of Datalog rules, which simultaneously enables the representation of a space of potential input database (program) changes and computing their effect on the analysis results.
-% 
 We posit that bridging Datalog's strengths for analysis with an ability to reason about and execute transformations would significantly expand its utility for program optimization, repair, and other transformations. 
 
 
 
-# Introduction
+## 1 Introduction
 
 The use of deductive databases and logic programming languages, such as Datalog [^datalog], for program analysis is far from new [^reps1995demand][^whaley2004cloning][^lam2005context]. The declarativeness of Datalog makes it attractive for specifying complex analyses [^souffle][^madmax]. The ability to specify recursive definitions is particularly exciting, as program analysis is fundamentally a mixture of mutually recursive tasks (see Figure: analyses-deps).
 
-> [!Important]
->
-> Fix figure analyses-deps
+<p align="center" width="100%">
+<!-- ![alt text](fig1.svg) -->
+ <img src=fig1.svg>
+</p>
 
 A Datalog query is a set of Horn clauses such as `path(X,Y) :- edge(X,Z), path(Z,Y).` executed against a database of facts referred to as the extensional database (EDB). The result is a set of derived facts, referred to as the intensional database (IDB).
 
@@ -28,13 +49,13 @@ While connecting program analysis to databases (via Datalog) has proved useful, 
 Program transformations involve changes in a program to improve an objective. Reasoning about these changes is necessary in many practical applications. For example, while a program analysis can determine if a program's behavior violates a certain property, a valid repair (fix, exception handler, etc.) ensures a program that meets the desired property [^sadowski2018lessons]. Consequently, reflecting on what transformations lead to a desired property is of great interest.
 
 
-# Existing Connections
+## 2 Existing Connections
 
 Starting from a Datalog view of programs represented as an EDB, we naturally arrive at program transformations being transformations to the corresponding facts in the database. Consequently, we can view the challenges of reflecting on these database transformations modulo a desired property in two phases. First, is the *reflection* aspect that answers what is the origin or derivation of an inferred fact? Second, the *transformation* aspect answers how a change to the input affects the truthfulness of the desired property.
 
 There have been various approaches to support both these aspects in traditional database and Datalog frameworks, some of which we explore next.
 
-### Database Repair and Integrity Constraints
+### 2.1 Database Repair and Integrity Constraints
 
 One well-studied desired property in traditional database applications is **Consistency**. Arenas et al. (1999) [^arenas1999consistent] define a database instance $r$ as *consistent* if $r$ satisfies a set of *integrity constraints* $IC$. They then logically characterize "consistent query answers in inconsistent databases". The intuitive interpretation here is that an answer to a query posed to a database that violates integrity constraints should be the same as that obtained from a minimally **repaired** version of the original database.
 
@@ -96,7 +117,7 @@ However, scalability issues exist when writing and applying these to large rules
 A bigger challenge in (directly) connecting this to Datalog for program transformation is that these approaches circumvent computing repairs entirely. This is of little applicability when the goal is to find a transformation.
 
 
-### Data Provenance and Debugging Datalog
+### 2.2 Data Provenance and Debugging Datalog
 
 While connections to database repair are apparent, another way to view transformations modulo a desired property is to look into **Data Provenance** for debugging why a property holds.
 
@@ -105,9 +126,10 @@ Despite the numerous advantages, the declarative semantics of Datalog poses a de
 A standard solution for these explanations is a *proof tree* [^datalog]. A proof tree for a tuple describes the derivation of that tuple from input tuples and rules.
 A valid proof tree (all nodes hold) can explain an unexpected tuple when debugging. A failed proof tree provides insight into why a tuple is not produced. Figure [XXX](#dummy-link) shows an example of a proof tree for an alias analysis.
 
-> ![Imporant]
->
-> Add figure
+<p align="center" width="100%">
+<!-- ![alt text](fig2.svg) -->
+ <img src=fig2.svg>
+</p>
 
 **Challenges:** However, these state-of-the-art techniques do not scale to large program analysis problems. Firstly, unlike top-down evaluation, scalable bottom-up Datalog evaluation does not have a notion of proof trees. Consequently, techniques propose rewriting the Datalog specification with provenance information [^deutch2015selective][^kohler2012declarative][^lee2017efficiently]. Here, a common issue is the need for re-evaluation when debugging, which can be expensive for industrial-scale static analysis problems (think something as precise as **Doop** [^doop], which may take multiple days for medium-to-large Java programs). Another major challenge is infinitely many proof trees and their conciseness—brute force search is infeasible, and storing proof trees during evaluation is memory intensive.
 
@@ -137,7 +159,7 @@ Notably, this has been integrated into state-of-the-art Datalog engines like Sou
 
 
 
-### Incrementality and Datalog
+### 2.3 Incrementality and Datalog
 
 The incrementality of Datalog engines allows for analysis on the fly, on-demand, and online analysis. Interactive applications using this benefit could provide insights into how to reason EDB transformations.
 
@@ -150,7 +172,7 @@ This capability significantly benefits tools like Language Server Protocols (LSP
 Elastic incrementalization [^elastic-incremental][^zhao2023automatic] extends this by incorporating provenance annotations for input adjustments in incremental Datalog. They switch between a low-overhead Bootstrap strategy that targets high-impact updates and an Update strategy that targets low-impact updates.
 
 
-# A Symbolic Execution Perspective
+## 3 A Symbolic Execution Perspective
 
 In the previous sections, we cover various viewpoints on the challenge of reflecting on input transformations modulo a desired property in a Datalog setting. Some solve the transformation aspect (Database repair), and others the reflection aspect (Data provenance, Debugging, and Incremental Datalog). However, a unification of the two within standard Datalog remains to bridge the use of Datalog from pure program analyses to transformations.
 
@@ -161,18 +183,19 @@ Consequently, one must be able to represent changes to the input and then execut
 
 Liu et al. (2023) [^liu2023program] presented one solution. They discuss an instantiation of the larger problem in program repair (a specific program transformation). An example of the setup is illustrated in Figure [example-prog-repair](#dummy-link). With this setup, one can identify bugs (such as null pointer exceptions) using a Datalog query over program facts. The result is an observed fact, say `npe("y", 3)`, that suggests the presence of the bug. Additionally, as seen in the section on Data Provenance and referenced in Figure [proof-tree](#dummy-link), one can derive a proof tree that describes the derivation of the observed fact.
 
+<p align="center" width="100%">
+<!-- ![alt text](fig3.svg) -->
+ <img src=fig3.svg>
+</p>
 
-> [!Important]
-> Fix images
-
-## Motivation: SymEx for Program Repair
+### Motivation: SymEx for Program Repair
 
 Popular research in automated program repair uses symbolic execution and testing. Nguyen et al. (2013) [^semfix] proposed **SemFix**, where the authors reformulated the requirement on the repaired code to pass a given set of tests as a constraint. **SemFix** generates repair constraints via controlled symbolic execution [^symex-select] of the program. Such a constraint is then solved by iterating over a space of repair expressions. Here, the key idea is in modeling the problem: abstract a given program by injecting symbols and executing the program symbolically to infer repair constraints. Solving these constraints results in potential repairs.
 
 Liu et al. (2023) [^liu2023program] extend this idea to Datalog. They introduce the notion of **Symbolic Execution of Datalog** (SEDL) that determines how a change to the EDB affects the output of a given query, the details of which are described next.
 
 
-### Symbolic Execution of Datalog
+#### Symbolic Execution of Datalog
 
 A set of changes to the database can be encoded using symbols. Liu et al. (2023) [^liu2023program] introduce three types of symbols: (1) symbolic constants ($\alpha$'s) that represent unknown constants, (2) symbolic predicates ($\rho$'s) for unknown predicates, and (3) symbolic signs ($\xi$'s) for unknown truthfulness of facts. These symbols can be used to inject and encode a large space of changes to the EDB, as shown below:
 
@@ -210,17 +233,18 @@ When executed, the values in these binding variables will capture the **assignme
 
 The overall semantics of symbolically executing a Datalog program $P$ can thus be described as a function $\mathcal{S}_P:2^{SEHB} \to 2^{SIHB \times \Phi}$. That is, each inferred fact in the symbolic intentional database (SIHB) is accompanied by an **Inference Condition** $\Phi$ that summarizes the values of auxiliary variables. This condition defines under what constraint the output fact is generated (similar to path conditions in conventional symbolic execution). For instance, the fact $npe(y, 3)$ could be accompanied by the following condition:
 
-> [!Important]
->
-> 🚧 TODO: add figure
+<p align="center" width="100%">
+<!-- ![alt text](fig4.svg) -->
+ <img src=fig4.svg>
+</p>
 
 Consequently, $\neg \Phi$ represents the constraint under which the corresponding fact is not true. This closes the loop for program repair, since $\neg \Phi$ is essentially a **repair constraint**—any solution for it is a valid repair or change to the EDB. These perspectives and ideas introduced to Datalog could potentially be extended beyond program repair.\
 
-# Conclusion
+## 4 Conclusion
 
 In this paper, we survey existing work to answer the question: *Can program transformations be translated to useful aspects of Datalog?* In light of this question, we looked at connections to databases in two directions. First, we studied the origins or derivation of a fact, found existing connections to database repair modulo integrity constraints, and unveiled challenges with them. Further, we find research on data provenance, Datalog augmented with lattices, and debugging Datalog quite relevant to the question at hand. Finally, we cover recent efforts in program repair (an example of a program transformation) that propose a symbolic execution perspective to this problem. Overall, this survey describes and connects several related ideas and provides a basis for future research on Datalog-based program transformations.
 
-# References
+## References
 
 [^datalog]: Citation for Datalog.
 [^reps1995demand]: Citation for Reps et al., 1995.
