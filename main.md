@@ -187,11 +187,11 @@ A set of changes to the database can be encoded using symbols. Liu et al. (2023)
 **Example.** For instance, consider the EDB in Figure [example-prog-repair](#dummy-link). Injecting symbolic facts into it could result in a symbolic EDB as follows:
 $$
 \begin{align*}
-&\xi_1 \text{ flow}(1, 2).    \hspace{4em}             \text{assign\_null}("x", 1). \\
+&\xi_1 \text{ flow}(1, 2).    \hspace{4em}             \text{assignNull}("x", 1). \\
 &\xi_2 \text{ flow}(2, 3).    \hspace{4em}             \text{call}("y", 3).\\
 &\xi_3 \text{ flow}(\alpha_1, \alpha_2).  \hspace{3em}             \xi_5 \text{ flow}(\alpha_4, 3).\\  
-&\xi_4 \text{ flow}(\alpha_2, \alpha_3).  \hspace{3em}            \xi_6 \text{ assign\_obj}(\alpha_5, \alpha_6). \\
-&\text{assign\_null}("x", 1).
+&\xi_4 \text{ flow}(\alpha_2, \alpha_3).  \hspace{3em}            \xi_6 \text{ assignObj}(\alpha_5, \alpha_6). \\
+&\text{assignNull}("x", 1).
 \end{align*}
 $$
 
@@ -201,7 +201,7 @@ Any valuation of these symbols corresponds to a concrete EDB (including the orig
 
 $$
 \begin{align*}
-&\text{null}(V,L, C1, \ldots, Cn):- \text{ flow}(L1, L, C1, \ldots, Cn), \text{ assign\_null}(V, L1, C1, \ldots, Cn); \\
+&\text{null}(V,L, C1, \ldots, Cn):- \text{ flow}(L1, L, C1, \ldots, Cn), \text{ assignNull}(V, L1, C1, \ldots, Cn); \\
 \end{align*}
 $$
 
