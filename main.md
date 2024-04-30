@@ -14,7 +14,7 @@ We posit that bridging Datalog's strengths for analysis with an ability to reaso
 
 The use of deductive databases and logic programming languages, such as Datalog [^datalog], for program analysis is far from new [^reps1995demand][^whaley2004cloning][^lam2005context]. The declarativeness of Datalog makes it attractive for specifying complex analyses [^souffle][^madmax]. The ability to specify recursive definitions is particularly exciting, as program analysis is fundamentally a mixture of mutually recursive tasks (see Figure: analyses-deps).
 
-> ![Important]
+> [!Important]
 >
 > Fix figure analyses-deps
 
@@ -92,7 +92,7 @@ The idea is to syntactically transform a query $Q$, reinforcing residues of ICs 
 
 **Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the below query, where the highlighted part is the residue added: $$\neg Q(x) \land \neg P(x)$$
 
-> ![Important]
+> [!Important]
 > highlight the second part
 
 
@@ -130,6 +130,9 @@ $$
 \end{align*}
 $$
 3. Define the join of instances $(I, h)$ and $(I', h')$ as $(I \cup I', h'')$ where $h''$ is the minimum of $h$ and $h'$ for each tuple in the join.
+
+> [!Important]
+> Fix the math here
 
 Since bottom-up evaluation is equivalent to applying a monotone function to move "up" a lattice, this guarantees the minimality of these height annotations. During debugging, one can reconstruct one level of the minimal proof for a tuple $t$ using a top-down search. While we omit details here, the example below illustrates it:
 
