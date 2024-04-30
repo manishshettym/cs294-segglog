@@ -38,26 +38,11 @@ There have been various approaches to support both these aspects in traditional 
 
 One well-studied desired property in traditional database applications is **Consistency**. Arenas et al. (1999) [^arenas1999consistent] define a database instance $r$ as *consistent* if $r$ satisfies a set of *integrity constraints* $IC$. They then logically characterize "consistent query answers in inconsistent databases". The intuitive interpretation here is that an answer to a query posed to a database that violates integrity constraints should be the same as that obtained from a minimally **repaired** version of the original database.
 
-
-<style>
-.table-container {
-    width: 100%;
-}
-.column {
-    display: table-cell;
-    padding: 10px;
-}
-th {
-    text-align: center;
-}
-</style>
-
-
-<div class="table-container">
-    <div class="column">
+<div class="table-container" width=100%;>
+    <div class="column" style="display:flex;">
         <table border="1" align=center>
             <tr>
-                <th colspan="3">Student</th>
+                <th colspan="3" style="text-align: center;">Student</th>
             </tr>
             <tr>
                 <td>S1</td>
@@ -71,10 +56,10 @@ th {
             </tr>
         </table>
     </div>
-    <div class="column">
+    <div class="column" style="display:flex;">>
         <table border="1" align=center>
             <tr>
-                <th colspan="3">Course</th>
+                <th colspan="3" style="text-align: center;">Course</th>
             </tr>
             <tr>
                 <td>S1</td>
@@ -90,8 +75,7 @@ th {
     </div>
 </div>
 
-
-**Example:** Consider a student database shown above. `Student(x, y, z)` means that `x` is the student number, `y` is the student's name, and `z` is the address. The following Integrity Constraints (ICs) state that the first argument is the relation's key:
+**Example:** Consider the student database shown above. `Student(x, y, z)` means that `x` is the student number, `y` is the student's name, and `z` is the address. The following Integrity Constraints (ICs) state that the first argument is the relation's key:
 
 $$
 \forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset y = u),
@@ -102,19 +86,16 @@ $$
 
 The inconsistent database instance `r` (shown) has two repairs, each removing one of the tuples in `Student`. Considering all repairs, for a query $\exists{z}~ Course(S1, y, z)$, we obtain `C1` and `C2` as the consistent answers. However, for $\exists{(u,v)}~ (Student(u, N1, v) \land Course(u, x, y))$ we obtain no (consistent) answers.
 
-
 This is interesting since a *repaired* database $r'$ was transformed to satisfy the desired integrity constraints $IC$. Of course, there could be many repairs for an inconsistent database.
-
 Arenas et al. (1999) [^arenas1999consistent] hence propose a solution to retrieve consistent answers that use only the original database (despite inconsistency).
-
 The idea is to syntactically transform a query $Q$, reinforcing residues of ICs locally, to a query $Q'$. Evaluating $Q'$ on the original database returns the set of consistent answers to the query $Q$. This avoids explicitly computing the repairs. Here's an example:
 
-**Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the query $$\neg Q(x) \land \text{\colorbox{gray}{$\neg P(x)$}}$$ where the highlighted part is the residue added.
+**Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the query $$\neg Q(x) \land \colorbox{gray}{$\neg P(x)$}$$ where the highlighted part is the residue added.
 
 
 **Challenges:** There are challenges in extending this directly to Datalog and program transformations. Mainly, queries and constraints here are limited to a fragment of first-order logic and rewritten into a new query in the same language. For instance, completeness is lost when it is applied to disjunctive or existential queries.
 
-More work [^arenas2003answer, ^bertossi2011database] along these lines have attempted to extend writing repair strategies in logical languages like Datalog, which are more expressive than FO logic.
+More work [^arenas2003answer][^bertossi2011database] along these lines have attempted to extend writing repair strategies in logical languages like Datalog, which are more expressive than FO logic.
 However, scalability issues exist when writing and applying these to large rulesets, as in static analysis.
 
 A bigger challenge in (directly) connecting this to Datalog for program transformation is that these approaches circumvent computing repairs entirely. This is of little applicability when the goal is to find a transformation.
