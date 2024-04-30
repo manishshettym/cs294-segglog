@@ -124,11 +124,13 @@ Recently, Zhao et al. (2020) [^zhao2020debugging] proposed storing *proof annota
 
 1. Define a *provenance instance* $(I, h)$ as an instance of tuples $I$ along with a function $h$ that provides a height annotation for each tuple in the instance.
 2. Define a *provenance lattice* as one that follows the ordering:
+
 $$
 \begin{align*}
-(I_1,h_1) \sqsubseteq (I_2,h_2) \Longleftrightarrow I_1 \subseteq I_2 &\text{ and } \forall{t \in I_1}: h_1(t) \ge h_2(t)
+(I_1,h_1) \sqsubseteq (I_2,h_2) \Longleftrightarrow I_1 \subseteq I_2 \text{ and } \forall{t \in I_1}: h_1(t) \ge h_2(t)
 \end{align*}
 $$
+
 3. Define the join of instances $(I, h)$ and $(I', h')$ as $(I \cup I', h'')$ where $h''$ is the minimum of $h$ and $h'$ for each tuple in the join.
 
 > [!Important]
