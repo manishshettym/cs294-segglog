@@ -190,7 +190,7 @@ Liu et al. (2023) [^liu2023program] presented one solution. They discuss an inst
 
 ### Motivation: SymEx for Program Repair
 
-Popular research in automated program repair uses symbolic execution and testing. Nguyen et al. (2013) [^semfix] proposed **SemFix**, where the authors reformulated the requirement on the repaired code to pass a given set of tests as a constraint. **SemFix** generates repair constraints via controlled symbolic execution [^symex-select] of the program. Such a constraint is then solved by iterating over a space of repair expressions. Here, the key idea is in modeling the problem: abstract a given program by injecting symbols and executing the program symbolically to infer repair constraints. Solving these constraints results in potential repairs.
+Popular research in automated program repair uses symbolic execution and testing. Nguyen et al. (2013) [^semfix][^angelix] proposed **SemFix**, where the authors reformulated the requirement on the repaired code to pass a given set of tests as a constraint. **SemFix** generates repair constraints via controlled symbolic execution [^symex-select] of the program. Such a constraint is then solved by iterating over a space of repair expressions. Here, the key idea is in modeling the problem: abstract a given program by injecting symbols and executing the program symbolically to infer repair constraints. Solving these constraints results in potential repairs.
 
 Liu et al. (2023) [^liu2023program] extend this idea to Datalog. They introduce the notion of **Symbolic Execution of Datalog** (SEDL) that determines how a change to the EDB affects the output of a given query, the details of which are described next.
 
