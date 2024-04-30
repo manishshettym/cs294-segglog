@@ -34,11 +34,12 @@ We posit that bridging Datalog's strengths for analysis with an ability to reaso
 
 The use of deductive databases and logic programming languages, such as Datalog [^datalog], for program analysis is far from new [^reps1995demand][^whaley2004cloning][^lam2005context]. The declarativeness of Datalog makes it attractive for specifying complex analyses [^souffle][^madmax]. The ability to specify recursive definitions is particularly exciting, as program analysis is fundamentally a mixture of mutually recursive tasks (see Figure: analyses-deps).
 
-<figure align="center" width="100%">
+<p align="center" width="100%">
 <!-- ![alt text](fig1.svg) -->
  <img src=fig1.svg>
- <figcaption>Figure 1. A subset of program analyses illustrating a domain of mutual recursion</figcaption>
-</figure>
+
+Figure 1. A subset of program analyses illustrating a domain of mutual recursion
+</p>
 
 A Datalog query is a set of Horn clauses such as `path(X,Y) :- edge(X,Z), path(Z,Y).` executed against a database of facts referred to as the extensional database (EDB). The result is a set of derived facts, referred to as the intensional database (IDB).
 
@@ -186,11 +187,12 @@ Consequently, one must be able to represent changes to the input and then execut
 
 Liu et al. (2023) [^liu2023program] presented one solution. They discuss an instantiation of the larger problem in program repair (a specific program transformation). An example of the setup is illustrated in [Figure 3](#dummy-link). With this setup, one can identify bugs (such as null pointer exceptions) using a Datalog query over program facts. The result is an observed fact, say `npe("y", 3)`, that suggests the presence of the bug. Additionally, as seen in the section on Data Provenance and referenced in [Figure 2](#dummy-link), one can derive a proof tree that describes the derivation of the observed fact.
 
-<figure align="center" width="100%">
+<p align="center" width="100%">
 <!-- ![alt text](fig3.svg) -->
- <img src=fig3.svg>
-<figcaption>Figure 3: (left) A program with a null pointer exception (NPE), (middle) an analysis that detects it, and (right) a repair that fixes it--all visualized in a Datalog setting for program analyses.</figcaption>
-</figure>
+<img src=fig3.svg>
+
+Figure 3: (left) A program with a null pointer exception (NPE), (middle) an analysis that detects it, and (right) a repair that fixes it--all visualized in a Datalog setting for program analyses.
+</p>
 
 ### Motivation: SymEx for Program Repair
 
