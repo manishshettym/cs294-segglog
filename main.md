@@ -1,6 +1,6 @@
 
 
-<center><h1>Abstract</h1></center>
+<h1 align=center>Abstract</h1>
 
 Datalog has proven to be a powerful language for encoding program analyses, but its connection to program transformations remains underexplored. This paper investigates how ideas from database repair, data provenance, and symbolic execution can bridge the gap between using Datalog for program analysis and leveraging it for program transformations.
 % 
