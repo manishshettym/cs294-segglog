@@ -297,7 +297,7 @@ In this paper, we survey existing work to answer the question: *Can program tran
 
 [^semfix]: H. D. T. Nguyen, D. Qi, A. Roychoudhury, and S. Chandra, ‘Semfix: Program repair via semantic analysis’, in 2013 35th International Conference on Software Engineering (ICSE), 2013, pp. 772–781.
 
-[^angelix] S. Mechtaev, J. Yi, and A. Roychoudhury, ‘Angelix: Scalable multiline program patch synthesis via symbolic analysis’, in Proceedings of the 38th international conference on software engineering, 2016, pp. 691–701.
+[^angelix]: S. Mechtaev, J. Yi, and A. Roychoudhury, ‘Angelix: Scalable multiline program patch synthesis via symbolic analysis’, in Proceedings of the 38th international conference on software engineering, 2016, pp. 691–701.
 
 [^symex-select]: R. S. Boyer, B. Elspas, and K. N. Levitt, ‘SELECT—a formal system for testing and debugging programs by symbolic execution’, ACM SigPlan Notices, vol. 10, no. 6, pp. 234–245, 1975.
 
