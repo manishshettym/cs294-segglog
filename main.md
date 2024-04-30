@@ -38,49 +38,42 @@ There have been various approaches to support both these aspects in traditional 
 
 One well-studied desired property in traditional database applications is **Consistency**. Arenas et al. (1999) [^arenas1999consistent] define a database instance $r$ as *consistent* if $r$ satisfies a set of *integrity constraints* $IC$. They then logically characterize "consistent query answers in inconsistent databases". The intuitive interpretation here is that an answer to a query posed to a database that violates integrity constraints should be the same as that obtained from a minimally **repaired** version of the original database.
 
-<div class="table-container" width=100%;>
-    <div class="column" style="display:flex;">
-        <table border="1" align=center>
-            <tr>
-                <th colspan="3" style="text-align: center;">Student</th>
-            </tr>
-            <tr>
-                <td>S1</td>
-                <td>N1</td>
-                <td>D1</td>
-            </tr>
-            <tr>
-                <td>S1</td>
-                <td>N2</td>
-                <td>D1</td>
-            </tr>
-        </table>
-    </div>
-    <div class="column" style="display:flex;">
-        <table border="1" align=center>
-            <tr>
-                <th colspan="3" style="text-align: center;">Course</th>
-            </tr>
-            <tr>
-                <td>S1</td>
-                <td>C1</td>
-                <td>G1</td>
-            </tr>
-            <tr>
-                <td>S1</td>
-                <td>C2</td>
-                <td>G2</td>
-            </tr>
-        </table>
-    </div>
-</div>
+<table align="right">
+  <tr>
+    <th colspan="3">Student</th>
+  </tr>
+  <tr>
+    <td>S1</td>
+    <td>N1</td>
+    <td>D1</td>
+  </tr>
+  <tr>
+    <td>S1</td>
+    <td>N2</td>
+    <td>D1</td>
+  </tr>
+</table>
+
+<table align="right">
+  <tr>
+    <th colspan="3">Course</th>
+  </tr>
+  <tr>
+    <td>S1</td>
+    <td>C1</td>
+    <td>G1</td>
+  </tr>
+  <tr>
+    <td>S1</td>
+    <td>C2</td>
+    <td>G2</td>
+  </tr>
+</table>
 
 **Example:** Consider the student database shown above. `Student(x, y, z)` means that `x` is the student number, `y` is the student's name, and `z` is the address. The following Integrity Constraints (ICs) state that the first argument is the relation's key:
 
 $$
-\forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset y = u),
-$$
-$$
+\forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset y = u),\\
 \forall(x,y,z,u,v)(Student(x,y,z) \land Student(x,u,v) \supset z = v).
 $$
 
