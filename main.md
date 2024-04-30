@@ -34,10 +34,11 @@ We posit that bridging Datalog's strengths for analysis with an ability to reaso
 
 The use of deductive databases and logic programming languages, such as Datalog [^datalog], for program analysis is far from new [^reps1995demand][^whaley2004cloning][^lam2005context]. The declarativeness of Datalog makes it attractive for specifying complex analyses [^souffle][^madmax]. The ability to specify recursive definitions is particularly exciting, as program analysis is fundamentally a mixture of mutually recursive tasks (see Figure: analyses-deps).
 
-<p align="center" width="100%">
+<figure align="center" width="100%">
 <!-- ![alt text](fig1.svg) -->
  <img src=fig1.svg>
-</p>
+ <figcaption>Figure 1. A subset of program analyses illustrating a domain of mutual recursion</figcaption>
+</figure>
 
 A Datalog query is a set of Horn clauses such as `path(X,Y) :- edge(X,Z), path(Z,Y).` executed against a database of facts referred to as the extensional database (EDB). The result is a set of derived facts, referred to as the intensional database (IDB).
 
@@ -124,12 +125,13 @@ While connections to database repair are apparent, another way to view transform
 Despite the numerous advantages, the declarative semantics of Datalog poses a debugging challenge. Logic specifications lack the notion of state and state transitions. After evaluation, we can only view relations in their entirety without explaining the origin or derivation of data.
 
 A standard solution for these explanations is a *proof tree* [^datalog]. A proof tree for a tuple describes the derivation of that tuple from input tuples and rules.
-A valid proof tree (all nodes hold) can explain an unexpected tuple when debugging. A failed proof tree provides insight into why a tuple is not produced. Figure [XXX](#dummy-link) shows an example of a proof tree for an alias analysis.
+A valid proof tree (all nodes hold) can explain an unexpected tuple when debugging. A failed proof tree provides insight into why a tuple is not produced. [Figure 2](#dummy-link) shows an example of a proof tree for an alias analysis.
 
-<p align="center" width="100%">
+<figure align="center" width="100%">
 <!-- ![alt text](fig2.svg) -->
  <img src=fig2.svg>
-</p>
+ <figcaption>Figure 2. Full proof tree for alias(a,b) in an alias analysis.</figcaption>
+</figure>
 
 **Challenges:** However, these state-of-the-art techniques do not scale to large program analysis problems. Firstly, unlike top-down evaluation, scalable bottom-up Datalog evaluation does not have a notion of proof trees. Consequently, techniques propose rewriting the Datalog specification with provenance information [^deutch2015selective][^kohler2012declarative][^lee2017efficiently]. Here, a common issue is the need for re-evaluation when debugging, which can be expensive for industrial-scale static analysis problems (think something as precise as **Doop** [^doop], which may take multiple days for medium-to-large Java programs). Another major challenge is infinitely many proof trees and their conciseness—brute force search is infeasible, and storing proof trees during evaluation is memory intensive.
 
@@ -181,12 +183,13 @@ Consequently, one must be able to represent changes to the input and then execut
 1. How to represent a change $\Delta(EDB)$ in standard Datalog?
 2. How to execute $\Delta(EDB)$ in standard Datalog, such that, we can reflect on a map $\Delta(EDB) \mapsto \Delta(IDB)$?
 
-Liu et al. (2023) [^liu2023program] presented one solution. They discuss an instantiation of the larger problem in program repair (a specific program transformation). An example of the setup is illustrated in Figure [example-prog-repair](#dummy-link). With this setup, one can identify bugs (such as null pointer exceptions) using a Datalog query over program facts. The result is an observed fact, say `npe("y", 3)`, that suggests the presence of the bug. Additionally, as seen in the section on Data Provenance and referenced in Figure [proof-tree](#dummy-link), one can derive a proof tree that describes the derivation of the observed fact.
+Liu et al. (2023) [^liu2023program] presented one solution. They discuss an instantiation of the larger problem in program repair (a specific program transformation). An example of the setup is illustrated in [Figure 3](#dummy-link). With this setup, one can identify bugs (such as null pointer exceptions) using a Datalog query over program facts. The result is an observed fact, say `npe("y", 3)`, that suggests the presence of the bug. Additionally, as seen in the section on Data Provenance and referenced in [Figure 2](#dummy-link), one can derive a proof tree that describes the derivation of the observed fact.
 
-<p align="center" width="100%">
+<figure align="center" width="100%">
 <!-- ![alt text](fig3.svg) -->
  <img src=fig3.svg>
-</p>
+<figcaption>Figure 3: (left) A program with a null pointer exception (NPE), (middle) an analysis that detects it, and (right) a repair that fixes it--all visualized in a Datalog setting for program analyses.</figcaption>
+</figure>
 
 ### Motivation: SymEx for Program Repair
 
@@ -199,7 +202,7 @@ Liu et al. (2023) [^liu2023program] extend this idea to Datalog. They introduce 
 
 A set of changes to the database can be encoded using symbols. Liu et al. (2023) [^liu2023program] introduce three types of symbols: (1) symbolic constants ($\alpha$'s) that represent unknown constants, (2) symbolic predicates ($\rho$'s) for unknown predicates, and (3) symbolic signs ($\xi$'s) for unknown truthfulness of facts. These symbols can be used to inject and encode a large space of changes to the EDB, as shown below:
 
-**Example.** For instance, consider the EDB in Figure [example-prog-repair](#dummy-link). Injecting symbolic facts into it could result in a symbolic EDB as follows:
+**Example.** For instance, consider the EDB in [Figure 3](#dummy-link). Injecting symbolic facts into it could result in a symbolic EDB as follows:
 
 $$
 \begin{align*}
