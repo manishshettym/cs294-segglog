@@ -1,12 +1,8 @@
 <hr>
 <h1> From Program Analyses to Transformations with Datalog </h1>
-<span>
-Manish Shetty
+<h4>Manish Shetty | University of California, Berkeley | manishs@berkeley.edu</h4>
 
-University of California, Berkeley
-
-manishs@berkeley.edu
-</span>
+> Note: A full LaTeX typeset pdf [here](SEggLog_Report.pdf)
 
 <h2 align=center>Abstract</h2>
 
