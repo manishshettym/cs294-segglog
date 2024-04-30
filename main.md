@@ -188,8 +188,8 @@ A set of changes to the database can be encoded using symbols. Liu et al. (2023)
 
 $$
 \begin{align*}
-&\xi_1 \text{ flow}(1, 2).  \ \ \ \ \ \ \ \ \ \ \ \ \text{assignNull}("x", 1). \\
-&\xi_2 \text{ flow}(2, 3).  \ \ \ \ \ \ \ \ \ \ \ \ \text{call}("y", 3).\\
+&\xi_1 \text{ flow}(1, 2).  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \text{assignNull}("x", 1). \\
+&\xi_2 \text{ flow}(2, 3).  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \text{call}("y", 3).\\
 &\xi_3 \text{ flow}(\alpha_1, \alpha_2). ~~~~~~~~~~~~\xi_5 \text{ flow}(\alpha_4, 3).\\  
 &\xi_4 \text{ flow}(\alpha_2, \alpha_3). ~~~~~~~~~~~~\xi_6 \text{ assignObj}(\alpha_5, \alpha_6). \\
 &\text{assignNull}("x", 1).
