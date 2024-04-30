@@ -246,27 +246,49 @@ In this paper, we survey existing work to answer the question: *Can program tran
 
 ## References
 
-[^datalog]: Citation for Datalog.
-[^reps1995demand]: Citation for Reps et al., 1995.
-[^whaley2004cloning]: Citation for Whaley et al., 2004.
-[^lam2005context]: Citation for Lam et al., 2005.
-[^souffle]: Citation for Souffle.
-[^madmax]: Citation for MadMax.
-[^doop]: Citation for DOOP.
-[^sadowski2018lessons]: Citation for Sadowski et al., 2018.
-[^arenas1999consistent]: Arenas, M., Bertossi, L., & Chomicki, J. (1999). Consistent Query Answers in Inconsistent Databases.
-[^arenas2003answer]: Arenas, M., Bertossi, L., & Chomicki, J. (2003). Answer Sets for Consistent Query Answers. 
-[^bertossi2011database]: Bertossi, L. (2011). Database Repairing and Consistent Query Answering.
-[^deutch2015selective]: Deutch, D., et al. (2015). Selective Provenance for Datalog Programs.
-[^kohler2012declarative]: Kohler, S., et al. (2012). Declarative Datalog Debugging for Mere Mortals.
-[^lee2017efficiently]: Lee, J., et al. (2017). Efficiently Debugging Datalog with Provenance.
-[^doop]: Bravenboer, M., and Smaragdakis, Y. (2009). Doop: Declarative Object-Oriented Programming.
-[^zhao2020debugging]: Zhao, Y., et al. (2020). Debugging with Provenance Annotations.
+[^datalog]: S. Abiteboul, R. Hull, and V. Vianu, Foundations of databases, vol. 8. Addison-Wesley Reading, 1995.
+
+[^reps1995demand]: T. W. Reps, ‘Demand interprocedural program analysis using logic databases’, in Applications of Logic Databases, Springer, 1995, pp. 163–196.
+
+[^whaley2004cloning]: J. Whaley and M. S. Lam, ‘Cloning-based context-sensitive pointer alias analysis using binary decision diagrams’, in Proceedings of the ACM SIGPLAN 2004 conference on Programming Language Design and Implementation, 2004, pp. 131–144.
+
+[^lam2005context]: M. S. Lam et al., ‘Context-sensitive program analysis as database queries’, in Proceedings of the twenty-fourth ACM SIGMOD-SIGACT-SIGART symposium on Principles of database systems, 2005, pp. 1–12.
+
+[^souffle]: H. Jordan, B. Scholz, and P. Subotić, ‘Soufflé: On synthesis of program analyzers’, in Computer Aided Verification: 28th International Conference, CAV 2016, Toronto, ON, Canada, July 17-23, 2016, Proceedings, Part II 28, 2016, pp. 422–430.
+
+[^madmax]: N. Grech, M. Kong, A. Jurisevic, L. Brent, B. Scholz, and Y. Smaragdakis, ‘Madmax: Surviving out-of-gas conditions in ethereum smart contracts’, Proceedings of the ACM on Programming Languages, vol. 2, no. OOPSLA, pp. 1–27, 2018.
+
+[^doop]: M. Bravenboer and Y. Smaragdakis, ‘Strictly declarative specification of sophisticated points-to analyses’, in Proceedings of the 24th ACM SIGPLAN conference on Object oriented programming systems languages and applications, 2009, pp. 243–262.
+
+[^sadowski2018lessons]: C. Sadowski, E. Aftandilian, A. Eagle, L. Miller-Cushon, and C. Jaspan, ‘Lessons from building static analysis tools at google’, Communications of the ACM, vol. 61, no. 4, pp. 58–66, 2018.
+
+[^arenas1999consistent]: M. Arenas, L. Bertossi, and J. Chomicki, ‘Consistent query answers in inconsistent databases’, in Proceedings of the eighteenth ACM SIGMOD-SIGACT-SIGART symposium on Principles of database systems, 1999, pp. 68–79.
+
+[^arenas2003answer]: M. Arenas, L. Bertossi, and J. Chomicki, ‘Answer sets for consistent query answering in inconsistent databases’, Theory and practice of logic programming, vol. 3, no. 4–5, pp. 393–424, 2003.
+
+[^bertossi2011database]: L. Bertossi, Database Repairs and Consistent Query Answering. Morgan & Claypool Publishers, 2011.
+
+[^deutch2015selective]: D. Deutch, A. Gilad, and Y. Moskovitch, ‘Selective provenance for datalog programs using top-k queries’, Proceedings of the VLDB Endowment, vol. 8, no. 12, pp. 1394–1405, 2015.
+
+[^kohler2012declarative]: S. Köhler, B. Ludäscher, and Y. Smaragdakis, ‘Declarative datalog debugging for mere mortals’, in International Datalog 2.0 Workshop, 2012, pp. 111–122.
+
+[^lee2017efficiently]: S. Lee, S. Köhler, B. Ludäscher, and B. Glavic, ‘Efficiently computing provenance graphs for queries with negation’, arXiv preprint arXiv:1701. 05699, 2017.
+
+[^zhao2020debugging]: D. Zhao, P. Subotić, and B. Scholz, ‘Debugging large-scale datalog: A scalable provenance evaluation strategy’, ACM Transactions on Programming Languages and Systems (TOPLAS), vol. 42, no. 2, pp. 1–35, 2020.
+
 [^souffleProvenance]: [Soufflé Provenance](https://souffle-lang.github.io/provenance)
-[^ddlog]: Differential Datalog (DDLog). 
-[^elastic-incremental]: Elastic Incrementalization.
-[^zhao2023automatic]: Zhao, Y., et al. (2023). Automatic Elastic Incrementalization for Datalog.
-[^liu2023program]: Liu, et al. (2023). Program Repair with Datalog.
-[^semfix]: Nguyen, T. A., et al. (2013). SemFix: Program Repair via Semantic Analysis.
-[^symex-select]: Symbolic execution for selective program repair.
+
+[^ddlog]: L. Ryzhyk and M. Budiu, ‘Differential Datalog’, Datalog, vol. 2, pp. 4–5, 2019.
+
+[^elastic-incremental]: D. Zhao, P. Subotic, M. Raghothaman, and B. Scholz, ‘Towards elastic incrementalization for datalog’, in Proceedings of the 23rd International Symposium on Principles and Practice of Declarative Programming, 2021, pp. 1–16.
+
+[^zhao2023automatic]: D. Zhao, P. Subotić, M. Raghothaman, and B. Scholz, ‘Automatic Rollback Suggestions for Incremental Datalog Evaluation’, in International Symposium on Practical Aspects of Declarative Languages, 2023, pp. 295–312.
+
+[^liu2023program]: Y. Liu, S. Mechtaev, P. Subotić, and A. Roychoudhury, ‘Program Repair Guided by Datalog-Defined Static Analysis’, in Proceedings of the 31st ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering, 2023, pp. 1216–1228.
+
+[^semfix]: H. D. T. Nguyen, D. Qi, A. Roychoudhury, and S. Chandra, ‘Semfix: Program repair via semantic analysis’, in 2013 35th International Conference on Software Engineering (ICSE), 2013, pp. 772–781.
+
+[^angelix] S. Mechtaev, J. Yi, and A. Roychoudhury, ‘Angelix: Scalable multiline program patch synthesis via symbolic analysis’, in Proceedings of the 38th international conference on software engineering, 2016, pp. 691–701.
+
+[^symex-select]: R. S. Boyer, B. Elspas, and K. N. Levitt, ‘SELECT—a formal system for testing and debugging programs by symbolic execution’, ACM SigPlan Notices, vol. 10, no. 6, pp. 234–245, 1975.
 
