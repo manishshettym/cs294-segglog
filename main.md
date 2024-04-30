@@ -36,8 +36,9 @@ The use of deductive databases and logic programming languages, such as Datalog 
 
 <p align="center" width="100%">
 <!-- ![alt text](fig1.svg) -->
- <img src=fig1.svg>
-
+<img src=fig1.svg>
+</p>
+<p align="center" width="100%">
 Figure 1. A subset of program analyses illustrating a domain of mutual recursion
 </p>
 
@@ -131,7 +132,8 @@ A valid proof tree (all nodes hold) can explain an unexpected tuple when debuggi
 <p align="center" width="100%">
 <!-- ![alt text](fig2.svg) -->
 <img src=fig2.svg>
-
+</p>
+<p align="center" width="100%">
 Figure 2. Full proof tree for alias(a,b) in an alias analysis.
 </p>
 
@@ -190,7 +192,8 @@ Liu et al. (2023) [^liu2023program] presented one solution. They discuss an inst
 <p align="center" width="100%">
 <!-- ![alt text](fig3.svg) -->
 <img src=fig3.svg>
-
+</p>
+<p align="center" width="100%">
 Figure 3: (left) A program with a null pointer exception (NPE), (middle) an analysis that detects it, and (right) a repair that fixes it--all visualized in a Datalog setting for program analyses.
 </p>
 
