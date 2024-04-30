@@ -90,10 +90,10 @@ This is interesting since a *repaired* database $r'$ was transformed to satisfy 
 Arenas et al. (1999) [^arenas1999consistent] hence propose a solution to retrieve consistent answers that use only the original database (despite inconsistency).
 The idea is to syntactically transform a query $Q$, reinforcing residues of ICs locally, to a query $Q'$. Evaluating $Q'$ on the original database returns the set of consistent answers to the query $Q$. This avoids explicitly computing the repairs. Here's an example:
 
-**Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the below query, where the highlighted part is the residue added:
-$$
-\neg Q(x) \land \colorbox{gray}{$\displaystyle \neg P(x)$}
-$$
+**Example:** Consider the integrity constraint $\forall{x} (\neg P(x) \lor Q(x))$. If $Q(x)$ is false, then $\neg P(x)$ must be true. So, when querying $\neg Q(x)$, we make sure to generate the below query, where the highlighted part is the residue added: $$\neg Q(x) \land \neg P(x)$$
+
+> ![Important]
+> highlight the second part
 
 
 **Challenges:** There are challenges in extending this directly to Datalog and program transformations. Mainly, queries and constraints here are limited to a fragment of first-order logic and rewritten into a new query in the same language. For instance, completeness is lost when it is applied to disjunctive or existential queries.
@@ -124,9 +124,11 @@ Recently, Zhao et al. (2020) [^zhao2020debugging] proposed storing *proof annota
 
 1. Define a *provenance instance* $(I, h)$ as an instance of tuples $I$ along with a function $h$ that provides a height annotation for each tuple in the instance.
 2. Define a *provenance lattice* as one that follows the ordering:
-    $$
-    (I_1,h_1) \sqsubseteq (I_2,h_2) \Longleftrightarrow I_1 \subseteq I_2 ~~and~~ \forall{t \in I_1}: h_1(t) \ge h_2(t).
-    $$
+$$
+\begin{align*}
+(I_1,h_1) \sqsubseteq (I_2,h_2) \Longleftrightarrow I_1 \subseteq I_2 &\text{ and } \forall{t \in I_1}: h_1(t) \ge h_2(t)
+\end{align*}
+$$
 3. Define the join of instances $(I, h)$ and $(I', h')$ as $(I \cup I', h'')$ where $h''$ is the minimum of $h$ and $h'$ for each tuple in the join.
 
 Since bottom-up evaluation is equivalent to applying a monotone function to move "up" a lattice, this guarantees the minimality of these height annotations. During debugging, one can reconstruct one level of the minimal proof for a tuple $t$ using a top-down search. While we omit details here, the example below illustrates it:
