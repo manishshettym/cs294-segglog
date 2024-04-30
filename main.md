@@ -185,19 +185,20 @@ Liu et al. (2023) [^liu2023program] extend this idea to Datalog. They introduce 
 A set of changes to the database can be encoded using symbols. Liu et al. (2023) [^liu2023program] introduce three types of symbols: (1) symbolic constants ($\alpha$'s) that represent unknown constants, (2) symbolic predicates ($\rho$'s) for unknown predicates, and (3) symbolic signs ($\xi$'s) for unknown truthfulness of facts. These symbols can be used to inject and encode a large space of changes to the EDB, as shown below:
 
 **Example.** For instance, consider the EDB in Figure [example-prog-repair](#dummy-link). Injecting symbolic facts into it could result in a symbolic EDB as follows:
+
 $$
 \begin{align*}
-&\xi_1 \text{ flow}(1, 2).    \hspace{4em}             \text{assignNull}("x", 1). \\
-&\xi_2 \text{ flow}(2, 3).    \hspace{4em}             \text{call}("y", 3).\\
-&\xi_3 \text{ flow}(\alpha_1, \alpha_2).  \hspace{3em}             \xi_5 \text{ flow}(\alpha_4, 3).\\  
-&\xi_4 \text{ flow}(\alpha_2, \alpha_3).  \hspace{3em}            \xi_6 \text{ assignObj}(\alpha_5, \alpha_6). \\
+&\xi_1 \text{ flow}(1, 2).  \ \ \ \ \ \ \ \ \ \ \ \ \text{assignNull}("x", 1). \\
+&\xi_2 \text{ flow}(2, 3).  \ \ \ \ \ \ \ \ \ \ \ \ \text{call}("y", 3).\\
+&\xi_3 \text{ flow}(\alpha_1, \alpha_2). ~~~~~~~~~~~~\xi_5 \text{ flow}(\alpha_4, 3).\\  
+&\xi_4 \text{ flow}(\alpha_2, \alpha_3). ~~~~~~~~~~~~\xi_6 \text{ assignObj}(\alpha_5, \alpha_6). \\
 &\text{assignNull}("x", 1).
 \end{align*}
 $$
 
 Any valuation of these symbols corresponds to a concrete EDB (including the original one). Next, these sets of changes (encoded as symbols) are "executed" using standard Datalog. To do so, Liu et al. (2023) [^liu2023program] propose a meta-programming approach. They encode the query and symbolic EDB into a meta-program using transformation rules. The meta-program uses auxiliary variables in the relations to capture the bindings for the symbols introduced. An example is discussed below:
 
-**Example:** Consider the rule `null(V,L):- flow(L1, L), assign_null(V, L1).` that calculates when a variable is `null`. Each predicate in a rule like this is augmented with variables for each symbol introduced. These auxiliary variables store the assignments to their corresponding symbols:
+**Example:** Consider the rule `null(V,L):- flow(L1, L), assignNull(V, L1).` that calculates when a variable is `null`. Each predicate in a rule like this is augmented with variables for each symbol introduced. These auxiliary variables store the assignments to their corresponding symbols:
 
 $$
 \begin{align*}
